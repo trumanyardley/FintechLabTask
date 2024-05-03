@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ticker Insights</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #insights {
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+        #insights-container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ticker Insights</h1>
+    <form method="post">
+        <label for="ticker">Select a ticker:</label>
+        <select id="ticker" name="ticker">
+            <option value="AAPL" {% if ticker == 'AAPL' %} selected {% endif %}>AAPL</option>
+            <option value="GOOG" {% if ticker == 'GOOG' %} selected {% endif %}>GOOG</option>
+            <option value="MSFT" {% if ticker == 'MSFT' %} selected {% endif %}>MSFT</option>
+        </select>
+        <input type="submit" value="Get Insights">
+    </form>
+    <div id="insights-container">
+        <h2>Latest 2023 10K Insights</h2>
+        <div id="insights">
+            {% if insights %}
+                {{ insights }}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
