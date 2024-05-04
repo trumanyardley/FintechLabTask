@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, session
 from bs4 import BeautifulSoup
 from visualize import generate_plots
+from sec_edgar_downloader import Downloader
 import re
 import pandas as pd
 import anthropic
@@ -86,8 +87,6 @@ def generate_insights(ticker):
     - [Risk Management Strategies (if mentioned)]
     """.format(text)
 
-    # -TODO- UNCOMENNT THIS WHEN IM READY
-
     # Ask claude to generate insights based on 10K document information
     message = client.messages.create(
         model="claude-3-opus-20240229",
@@ -100,9 +99,6 @@ def generate_insights(ticker):
             }
         ],
     )
-
-    # TODO DELETE THIS WHEN IM READY THIS WILL EAT AT MY CREDIT AND UNCOMMENT OTHER RETURN BELOW
-    # return prompt
 
     return message.content[0].text
 
@@ -125,6 +121,7 @@ def parse_10k(ticker):
         raw_text = file.read()
 
     ########### PARSING INFORMATION FOR SECTIONS 1A, 7, and 7A ##############
+    # Referenced doc at https://gist.github.com/anshoomehra/ead8925ea291e233a5aa2dcaa2dc61b2
 
     # Useful 10K information is contained within Document tags
     ### Regex to find <DOCUMENT> tags
@@ -218,5 +215,14 @@ def parse_10k(ticker):
     return combined_text
 
 
+# Method to download 10Ks using SEC EDGAR
+def download_10k():
+    dl = Downloader("Personal", "truman.yardley@gmail.com", "Docs/")
+
+    dl.get("10-K", "AAPL", after="1994-01-01", before="2024-01-01")
+    dl.get("10-K", "MSFT", after="1994-01-01", before="2024-01-01")
+
+
 if __name__ == "__main__":
+    download_10k()
     app.run(debug=True)
