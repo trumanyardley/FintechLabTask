@@ -26,3 +26,6 @@ Due to limited credits for **Anthropic's Claude**, the app was not deployed to a
 
 **Demo Recording**
 =================
+
+https://github.com/trumanyardley/FintechLabTask/assets/19740076/fe56843e-b26e-48ec-955e-e23ec225bad3
+
