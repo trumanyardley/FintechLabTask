@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, session
 from bs4 import BeautifulSoup
+from visualize import generate_plots
 import re
 import pandas as pd
 import anthropic
@@ -17,7 +18,11 @@ def index():
             ticker  # Run the Python script with the selected ticker value
         )
         insights = generate_insights(ticker)
-        return render_template("index.html", insights=insights, ticker=ticker)
+        plots = generate_plots(ticker)
+        plot1, plot2 = plots
+        return render_template(
+            "index.html", insights=insights, ticker=ticker, plot1=plot1, plot2=plot2
+        )
     elif request.method == "GET":
         if "ticker" in session:
             # check if a ticker is stored in the session
@@ -84,27 +89,26 @@ def generate_insights(ticker):
     # -TODO- UNCOMENNT THIS WHEN IM READY
 
     # Ask claude to generate insights based on 10K document information
-    # message = client.messages.create(
-    #     model="claude-3-opus-20240229",
-    #     max_tokens=2000,
-    #     temperature=0,
-    #     messages=[
-    #         {
-    #             "role": "user",
-    #             "content": [{"type": "text", "text": prompt}],
-    #         }
-    #     ],
-    # )
+    message = client.messages.create(
+        model="claude-3-opus-20240229",
+        max_tokens=2000,
+        temperature=0,
+        messages=[
+            {
+                "role": "user",
+                "content": [{"type": "text", "text": prompt}],
+            }
+        ],
+    )
 
     # TODO DELETE THIS WHEN IM READY THIS WILL EAT AT MY CREDIT AND UNCOMMENT OTHER RETURN BELOW
-    return "This will be Claude's response"
+    # return prompt
 
-    # return message.content[0].text
+    return message.content[0].text
 
 
 # Extract useful information from tickers 2023 10K
 def parse_10k(ticker):
-    # Your Python script goes here
     # Use the ticker value to generate insights
     # Return the insights as a string
 

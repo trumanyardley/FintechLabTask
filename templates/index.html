@@ -17,6 +17,20 @@
         #insights-container {
             margin-top: 50px;
         }
+        #plots-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        #plot-1, #plot-2 {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            max-width: 80%;
+        }
     </style>
 </head>
 <body>
@@ -26,7 +40,6 @@
         <select id="ticker" name="ticker">
             <option value="AAPL" {% if ticker == 'AAPL' %} selected {% endif %}>AAPL</option>
             <option value="GOOG" {% if ticker == 'GOOG' %} selected {% endif %}>GOOG</option>
-            <option value="MSFT" {% if ticker == 'MSFT' %} selected {% endif %}>MSFT</option>
         </select>
         <input type="submit" value="Get Insights">
     </form>
@@ -37,6 +50,18 @@
                 {{ insights }}
             {% endif %}
         </div>
+      <div id="plots-container">
+          <div id="plot-1">
+              {% if plot1 %}
+                  {{ plot1 | safe }}
+              {% endif %}
+          </div>
+          <div id="plot-2">
+              {% if plot2 %}
+                  {{ plot2 | safe }}
+              {% endif %}
+          </div>
+      </div>
     </div>
 </body>
 </html>
